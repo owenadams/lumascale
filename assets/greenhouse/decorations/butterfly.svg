@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" fill="none">
+  <defs><g id="wing" stroke="#526e7c" stroke-width="3" stroke-linejoin="round">
+    <path d="M118 105C91 72 57 21 29 33C4 45 35 101 62 116C31 114 40 162 65 170C90 179 107 135 118 105Z" fill="#9cddd3"/>
+    <path d="M108 101C82 73 53 42 38 45C34 62 58 93 83 104Z" fill="#e0e8f3"/>
+    <path d="M105 116C80 110 60 126 59 145C73 164 94 140 105 116Z" fill="#e9b8d0"/>
+    <path d="M43 59L91 99M57 129L95 117" stroke="#fff0ce" stroke-width="4"/>
+  </g></defs>
+  <use href="#wing"/>
+  <use href="#wing" transform="translate(240 0) scale(-1 1)"/>
+  <path d="M116 89Q111 65 102 61M124 89Q129 65 138 61" stroke="#526e7c" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="120" cy="112" rx="7" ry="32" fill="#74998d" stroke="#526e7c" stroke-width="3"/>
+  <circle cx="120" cy="82" r="8" fill="#ffe4a7" stroke="#526e7c" stroke-width="3"/>
+</svg>

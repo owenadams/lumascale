@@ -1,0 +1,11 @@
+/Stitch Files/
+/assets/processed-preview/
+/_site/
+/.pages-preview/
+/node_modules/
+.env
+.env.*
+*.zip
+credentials*.json
+token*.json
+client_secret*.json

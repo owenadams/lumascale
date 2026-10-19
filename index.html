@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101221">
+  <meta name="description" content="A gentle, growing sanctuary for your pearlescent dragon.">
+  <title>LumaScale | A little light, every day</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LumaScale">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <script src="pwa.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#sanctuary" aria-label="LumaScale sanctuary">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3.5 23.5 15l11.7 5-11.7 5L20 36.5 16.5 25l-11.7-5 11.7-5L20 3.5Z"/><circle cx="20" cy="20" r="3.2"/></svg></span>
+        <span><strong>LumaScale</strong><small>your little sanctuary</small></span>
+      </a>
+      <div class="sidebar-label">SANCTUARY</div>
+      <nav class="main-nav">
+        <button class="nav-link active" data-view="sanctuary"><span class="nav-icon">⌂</span> Sanctuary</button>
+        <button class="nav-link" data-view="greenhouse"><span class="nav-icon">❋</span> Greenhouse <span class="nav-dot" id="greenhouseDot"></span></button>
+        <button class="nav-link" data-view="games"><span class="nav-icon">✧</span> Play & wander</button>
+        <button class="nav-link" data-view="hoard"><span class="nav-icon">◈</span> Curiosity hoard <span class="nav-count" id="hoardCount">0</span></button>
+        <button class="nav-link" data-view="journal"><span class="nav-icon">▤</span> Field journal</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="season-note"><span class="season-orb" aria-hidden="true"></span><div><strong id="seasonSidebar">First bloom</strong><small>Season of the sanctuary</small></div></div>
+        <button class="nav-link quiet-link" id="settingsButton"><span class="nav-icon">⚙</span> Sanctuary settings</button>
+        <div class="save-note"><span class="save-dot"></span> Saved on this device</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span>YOUR SANCTUARY</span><span class="crumb-separator">/</span><span id="crumbCurrent">TODAY</span></div>
+        <div class="topbar-actions">
+          <div class="dust-pill" title="Pearl Dust"><span class="dust-gem">✦</span><span id="dustCount">0</span><span class="dust-label">dust</span></div>
+          <button class="icon-button" id="timeSkipButton" title="Skip ahead 30 days" aria-label="Skip ahead 30 days"><span aria-hidden="true">◷</span></button>
+          <button class="avatar-button" id="profileButton" aria-label="Edit dragon name"><span id="avatarInitial">✧</span></button>
+        </div>
+      </header>
+
+      <div class="view-panel active" id="view-sanctuary" data-panel="sanctuary">
+        <section class="welcome-row">
+          <div><div class="eyebrow" id="todayLabel">A QUIET LITTLE MORNING</div><h1 id="welcomeTitle">A little light, every day.</h1><p class="welcome-subtitle" id="welcomeSubtitle">Your sanctuary is right where you left it.</p></div>
+          <div class="weather-chip"><span class="weather-icon" id="weatherIcon">☀</span><span><strong id="weatherName">Soft sunshine</strong><small id="weatherMeta">A lovely day to be here</small></span></div>
+        </section>
+
+        <section class="sanctuary-grid">
+          <article class="scene-card" aria-label="Dragon sanctuary">
+            <div class="scene-sky">
+              <div class="scene-header"><div class="scene-location"><span class="location-mark">⌖</span><span>THE GLASSHOUSE GARDEN</span></div><span class="stage-pill" id="stagePill">OPAL EGG</span></div>
+              <div class="scene-sun"></div><div class="scene-cloud cloud-one"></div><div class="scene-cloud cloud-two"></div>
+              <div class="scene-stars" aria-hidden="true"><i>✦</i><i>·</i><i>✧</i><i>·</i></div>
+              <div class="scene-art" id="sceneArt">
+                <svg class="egg-art" id="eggArtwork" viewBox="0 0 420 340" role="img" aria-label="A warm opalescent dragon egg resting in a nest">
+                  <defs>
+                    <linearGradient id="eggShell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff8df"/><stop offset=".34" stop-color="#d6f1e3"/><stop offset=".68" stop-color="#f8c8d4"/><stop offset="1" stop-color="#a7d8d0"/></linearGradient>
+                    <linearGradient id="eggShine" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".96"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                    <radialGradient id="eggGlow"><stop offset="0" stop-color="#fff4be" stop-opacity=".95"/><stop offset="1" stop-color="#fff4be" stop-opacity="0"/></radialGradient>
+                    <filter id="softShadow"><feGaussianBlur stdDeviation="8"/></filter>
+                  </defs>
+                  <ellipse cx="210" cy="294" rx="111" ry="17" fill="#52685b" opacity=".18" filter="url(#softShadow)"/>
+                  <ellipse cx="210" cy="272" rx="130" ry="38" fill="none" stroke="#758d73" stroke-width="12" stroke-linecap="round" stroke-dasharray="190 20" transform="rotate(-8 210 272)"/>
+                  <ellipse cx="210" cy="279" rx="105" ry="24" fill="none" stroke="#9eac81" stroke-width="7" stroke-linecap="round" stroke-dasharray="128 22" transform="rotate(9 210 279)"/>
+                  <ellipse cx="210" cy="193" rx="118" ry="137" fill="url(#eggGlow)"/>
+                  <path d="M210 68c-53 0-90 78-90 147 0 57 38 84 90 84s90-27 90-84c0-69-37-147-90-147Z" fill="url(#eggShell)" stroke="#fffaf0" stroke-width="5"/>
+                  <path d="M159 114c-19 36-28 82-18 121 4 17 14 29 27 35-16-42-7-116 10-157 6-15-11-14-19 1Z" fill="url(#eggShine)" opacity=".9"/>
+                  <path d="M247 118c18 33 29 82 20 117" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".5"/>
+                  <path d="m208 87 6 12-8 11 12 10-9 14 12 11-7 15" fill="none" stroke="#d4ad76" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+                  <path d="m208 87 6 12-8 11 12 10-9 14 12 11-7 15" fill="none" stroke="#fff7db" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="158" cy="184" r="4" fill="#fff" opacity=".8"/><circle cx="265" cy="221" r="3" fill="#fff" opacity=".85"/><path d="m267 157 4 9 9 4-9 4-4 9-4-9-9-4 9-4 4-9Z" fill="#fff4ce"/>
+                  <path d="M133 253c-18 9-30 26-36 44m190-43c19 9 30 24 36 43m-235-22c16 8 29 11 44 10m178-7c-14 7-27 10-41 9" fill="none" stroke="#72896f" stroke-width="8" stroke-linecap="round"/>
+                  <path d="M106 256c-8-13-8-23 2-31 10 9 12 18 2 31Zm202 9c7-15 16-20 27-16-2 14-10 21-27 16Z" fill="#94ad86"/>
+                </svg>
+                <svg class="dragon-art hidden" id="dragonArtwork" viewBox="0 0 500 360" role="img" aria-label="Your pearlescent dragon resting in its garden">
+                  <defs>
+                    <linearGradient id="dragonBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0cc"/><stop offset=".34" stop-color="#a9dfd1"/><stop offset=".67" stop-color="#e5a8c0"/><stop offset="1" stop-color="#92c9c2"/></linearGradient>
+                    <linearGradient id="dragonWing" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d3eee0" stop-opacity=".94"/><stop offset=".53" stop-color="#efbdd0" stop-opacity=".88"/><stop offset="1" stop-color="#f7e5b0" stop-opacity=".8"/></linearGradient>
+                    <radialGradient id="dragonHalo"><stop stop-color="#fff0b8" stop-opacity=".88"/><stop offset="1" stop-color="#fff0b8" stop-opacity="0"/></radialGradient>
+                    <filter id="dragonShadow"><feGaussianBlur stdDeviation="8"/></filter>
+                  </defs>
+                  <ellipse cx="248" cy="307" rx="150" ry="19" fill="#52685b" opacity=".2" filter="url(#dragonShadow)"/>
+                  <ellipse cx="250" cy="190" rx="184" ry="150" fill="url(#dragonHalo)"/>
+                  <path d="M175 221c-84 35-87 79-137 74-18-2-29-15-25-29 4-13 22-17 32-7-7 18 9 25 24 15 31-22 23-62 82-86" fill="none" stroke="url(#dragonBody)" stroke-width="25" stroke-linecap="round"/>
+                  <path d="M217 196c-34-89-98-125-149-132 8 44 36 75 85 101-41-3-68 9-88 31 62 3 99 20 125 50Z" fill="url(#dragonWing)" stroke="#fff9e8" stroke-width="4" stroke-linejoin="round"/>
+                  <path d="M270 190c42-96 111-128 160-128-10 48-40 78-88 101 44-2 74 13 94 38-63 2-105 18-137 50Z" fill="url(#dragonWing)" stroke="#fff9e8" stroke-width="4" stroke-linejoin="round"/>
+                  <path d="M185 244c5-62 48-103 99-100 57 3 90 49 76 101-11 41-47 65-94 64-47-1-84-22-81-65Z" fill="url(#dragonBody)" stroke="#fff9ed" stroke-width="4"/>
+                  <path d="M276 163c-6-47 21-78 61-75 37 2 59 36 48 68-11 33-48 48-84 36Z" fill="url(#dragonBody)" stroke="#fff9ed" stroke-width="4"/>
+                  <path d="M295 106c-15-26-10-47 4-61 19 22 24 39 17 57m30 5c3-28 19-43 39-47 5 27-1 45-19 57" fill="#d8c995" stroke="#fff9ed" stroke-width="4" stroke-linejoin="round"/>
+                  <path d="M367 177c23-1 38 7 46 21-20 12-40 10-59-4" fill="#e5b6ae" stroke="#fff9ed" stroke-width="3"/>
+                  <ellipse cx="354" cy="151" rx="5" ry="8" fill="#435c52"/><circle cx="356" cy="148" r="2" fill="#fff"/>
+                  <path d="M212 275c-12 16-12 32 0 37 15 6 25-7 27-22m47 10c-4 20 5 31 19 28 13-3 17-18 11-34" fill="none" stroke="#a4c7ad" stroke-width="10" stroke-linecap="round"/>
+                  <path d="m243 165 9 14 12-14 10 15 13-12 8 18" fill="none" stroke="#fff5d2" stroke-width="8" stroke-linecap="round"/>
+                  <path d="m141 119 5 11 11 4-11 5-5 11-4-11-11-5 11-4 4-11Zm276 82 4 8 8 4-8 3-4 9-3-9-9-3 9-4 3-8Z" fill="#fff5cf"/>
+                  <path d="M112 261c-9-18-6-29 7-35 10 14 10 26-7 35Zm303 31c3-18 12-27 26-25 1 15-7 25-26 25Z" fill="#95af83"/>
+                </svg>
+                <img class="dragon-art stage-dragon-art hidden" id="stageDragonArtwork" src="assets/characters/whelp/idle.webp" alt="Your pearlescent dragon">
+                <img class="dragon-art hidden" id="familyArtwork" src="assets/stitch-lineage-family.webp" alt="A pearlescent dragon curled protectively around its hatchling">
+                <div class="scene-motes" aria-hidden="true"><i>✦</i><i>✧</i><i>·</i></div>
+                <div class="lineage-egg hidden" id="lineageEgg" aria-label="A new lineage egg"><span>✧</span></div>
+              </div>
+              <div class="scene-caption"><span id="sceneCaption">Something luminous is dreaming in there.</span><span class="caption-heart" aria-hidden="true">♡</span></div>
+              <div class="scene-ground"></div>
+            </div>
+            <div class="scene-footer"><div class="dragon-identity"><span class="identity-mark" id="identityMark">✧</span><div><strong id="dragonNameLabel">A little one, not yet named</strong><small id="ageLabel">Your story starts here</small></div></div><div class="scene-actions" id="sceneActions"><button class="soft-button" data-action="hum"><span>♫</span> Hum softly</button><button class="soft-button" data-action="warm"><span>☼</span> Tend embers</button><button class="soft-button" data-action="polishEgg"><span>✦</span> Polish shell</button></div></div>
+            <div class="sanctuary-garden hidden" id="sanctuaryGarden" aria-label="Your ornamental garden"></div>
+          </article>
+
+          <aside class="care-column">
+            <article class="care-card">
+              <div class="card-heading"><div><div class="eyebrow">A GENTLE CHECK-IN</div><h2 id="careTitle">Getting ready to hatch</h2></div><span class="mood-spark" id="moodSpark">✧</span></div>
+              <p class="care-copy" id="careCopy">Every little kindness helps the light find its way out.</p>
+              <section class="growth-summary" id="growthSummary" aria-live="polite"><div class="growth-summary-heading"><div><div class="eyebrow" id="growthStageLabel">OPAL EGG</div><strong id="dragonAgeDisplay">Hatching journey</strong></div><span class="growth-progress-value" id="growthProgressValue">0%</span></div><div class="meter growth-meter"><span id="growthProgressBar"></span></div><div class="growth-next"><span class="eyebrow">COMING NEXT</span><div><strong id="nextMilestoneTitle">Hatchling</strong><small id="nextMilestoneDetail">A little dragon is dreaming inside.</small></div></div></section>
+              <div class="hatch-progress" id="hatchProgressBlock"><div class="progress-heading"><span>Shell warmth</span><strong id="hatchPercent">0%</strong></div><div class="meter hatch-meter"><span id="hatchMeter"></span></div><div class="hatch-hint" id="hatchHint">The egg answers your touch.</div></div>
+              <div class="stat-list hidden" id="dragonStats">
+                <div class="stat-row"><span class="stat-icon food-icon">◉</span><div class="stat-main"><div class="stat-label"><span>Fullness</span><strong id="fullnessValue">72</strong></div><div class="meter"><span id="fullnessMeter"></span></div></div></div>
+                <div class="stat-row"><span class="stat-icon energy-icon">⌁</span><div class="stat-main"><div class="stat-label"><span>Energy</span><strong id="energyValue">78</strong></div><div class="meter"><span id="energyMeter"></span></div></div></div>
+                <div class="stat-row"><span class="stat-icon joy-icon">♡</span><div class="stat-main"><div class="stat-label"><span>Contentment</span><strong id="moodValue">82</strong></div><div class="meter"><span id="moodMeter"></span></div></div></div>
+                <div class="stat-row"><span class="stat-icon luster-icon">✦</span><div class="stat-main"><div class="stat-label"><span>Scale luster</span><strong id="lusterValue">68</strong></div><div class="meter"><span id="lusterMeter"></span></div></div></div>
+              </div>
+              <div class="care-buttons" id="careButtons"><button class="primary-button" data-action="pet"><span aria-hidden="true">♡</span><span id="petButtonText">Rest a hand on the shell</span></button><button class="secondary-button" data-action="openFood"><span aria-hidden="true">◉</span> Offer a snack</button><button class="secondary-button" data-action="startGlide"><span aria-hidden="true">⌁</span> Go gliding</button></div>
+              <div class="care-footer"><span class="care-status-dot"></span><span id="careStatus">No rush. This little world will wait for you.</span></div>
+            </article>
+            <article class="daily-card"><div class="daily-heading"><span class="sunflower">✿</span><div><strong>Today, together</strong><small id="dailyProgressText">A few quiet moments are enough</small></div></div><div class="daily-checks" id="dailyChecks"><span class="check-item" data-check="bond"><i></i> Say hello</span><span class="check-item" data-check="nourish"><i></i> Share a snack</span><span class="check-item" data-check="play"><i></i> Stretch those wings</span></div></article>
+          </aside>
+        </section>
+        <section class="hoard-shelf-section" aria-labelledby="shelfTitle">
+          <div class="shelf-heading"><div><div class="eyebrow">LITTLE TREASURES, CLOSE BY</div><h2 id="shelfTitle">The keepsake shelf</h2></div><button class="text-button" data-action="openShelf"><span aria-hidden="true">&#9671;</span> Arrange shelf</button></div>
+          <div class="treasure-shelf" id="treasureShelf"></div>
+          <p class="shelf-moment" id="shelfMoment" aria-live="polite">A quiet place for the things that feel like home.</p>
+        </section>
+        <section class="bottom-row"><article class="feature-strip greenhouse-strip"><div class="feature-art plant-art"><span>❋</span><i>✦</i><b>·</b></div><div class="feature-text"><div class="eyebrow">A LITTLE SOMETHING TO GROW</div><h3>The greenhouse is waking up</h3><p>Moon-berries and mist-melons are waiting in the sun.</p></div><button class="text-button" data-goto="greenhouse">Visit greenhouse <span>→</span></button></article><article class="feature-strip hoard-strip"><div class="feature-art hoard-art"><span>◈</span><i>✦</i><b>·</b></div><div class="feature-text"><div class="eyebrow">SOMETHING NEW, MAYBE</div><h3 id="hoardTeaserTitle">Curiosities find their way home</h3><p id="hoardTeaser">Your dragon may bring back a tiny treasure while you are away.</p></div><button class="text-button" data-goto="hoard">See the hoard <span>→</span></button></article></section>
+      </div>
+
+      <div class="view-panel" id="view-greenhouse" data-panel="greenhouse">
+        <section class="page-heading"><div><div class="eyebrow">TEND A LITTLE WILDNESS</div><h1>The greenhouse</h1><p>Good things take their time. Your dragon's favorite foods grow here.</p></div><div class="greenhouse-weather"><span>☼</span><span id="greenhouseSeason">The garden is in a gentle season.</span></div></section>
+        <section class="greenhouse-banner"><div class="greenhouse-banner-art" aria-hidden="true"><span class="greenhouse-leaf leaf-a">❋</span><span class="greenhouse-leaf leaf-b">❋</span><span class="greenhouse-leaf leaf-c">✿</span><span class="greenhouse-fruit">●</span></div><div><span class="eyebrow">YOUR SMALL PATCH OF MAGIC</span><h2>Four little flavors, one happy dragon.</h2><p>Harvest is always here when you need it. Plant a seed to grow a few more.</p></div><div class="harvest-pill"><span>✿</span><strong id="gardenHarvests">0</strong><small>harvests</small></div></section>
+        <section class="living-garden" aria-labelledby="livingGardenTitle">
+          <div class="garden-section-heading"><div><div class="eyebrow">A LITTLE WILDNESS OF YOUR OWN</div><h2 id="livingGardenTitle">Among the leaves</h2></div><label class="garden-season-label">Season<select id="gardenSeasonSelect"><option value="auto">Follow the calendar</option><option value="spring">First bloom</option><option value="summer">Long light</option><option value="autumn">Amber hush</option><option value="winter">Quiet frost</option></select></label></div>
+          <p class="garden-season-copy" id="gardenSeasonCopy"></p>
+          <div class="ornamental-border" id="ornamentalBorder"></div>
+          <div class="garden-border-actions"><button class="secondary-button" data-action="openBorderPicker"><span aria-hidden="true">&#10047;</span> Arrange border</button><button class="primary-button" data-action="visitGarden"><span aria-hidden="true">&#9825;</span> Stay awhile</button></div>
+          <div class="garden-dragon-moment"><img id="gardenDragonPortrait" src="assets/characters/whelp/idle.webp" alt="Your dragon in the garden"><div><h3 id="gardenMomentTitle">A place to spend a little time</h3><p id="gardenMomentBody">The leaves are still, and a little warmth lingers by the beds.</p><button class="text-button" id="keepGardenMomentButton" data-action="keepGardenMoment" disabled><span aria-hidden="true">&#9998;</span> Keep this moment</button></div></div>
+        </section>
+        <div class="section-title-row"><div><h2>Prism pantry</h2><p>Food changes more than a full belly.</p></div><span class="pantry-count" id="pantryCount">0 portions</span></div>
+        <section class="food-grid" id="foodGrid"></section>
+        <section class="greenhouse-lower"><article class="greenhouse-note"><span class="note-icon">☾</span><div><h3>Little things to remember</h3><p>Moon-berries and quartz-root help keep scales bright. Sun-peppers add a bit of zoom. Mist-melons bring everything back into balance. A treat now and then is lovely; too many can make your dragon sleepy.</p></div></article><article class="seed-card garden-card"><div class="garden-card-heading"><div class="seed-art" aria-hidden="true">✿</div><div class="garden-heading-copy"><div class="eyebrow">YOUR SANCTUARY GARDEN</div><h3>Your garden</h3><p id="gardenStatus">One Moon-seed is ready to plant.</p></div></div><div class="garden-toolbar"><span id="gardenSeedCount">1 Moon-seed ready</span><button class="secondary-button hidden" id="harvestReadyGardenButton" data-action="harvestReadyGarden">Harvest ready beds <span>✿</span></button></div><div class="garden-plots" id="gardenPlots"></div></article></section>
+        <section class="garden-life-section"><div class="garden-section-heading"><div><div class="eyebrow">COMPANY AMONG THE LEAVES</div><h2>Friendly visitors</h2></div></div><div class="garden-visitors" id="gardenVisitors"></div></section>
+        <section class="garden-life-section"><div class="garden-section-heading"><div><div class="eyebrow">POLLEN KEEPS A LITTLE MEMORY</div><h2>Unexpected blossoms</h2></div></div><div class="garden-discoveries" id="gardenHybrids"></div></section>
+        <section class="garden-life-section"><div class="garden-section-heading"><div><div class="eyebrow">OLD STORIES, NEW ROOTS</div><h2>Keepsakes in the garden</h2></div></div><div class="garden-discoveries" id="gardenKeepsakes"></div></section>
+        <section class="garden-life-section"><div class="garden-section-heading"><div><div class="eyebrow">SMALL THINGS WORTH KEEPING</div><h2>The garden scrapbook</h2></div><button class="text-button" data-action="openGardenScrapbook"><span aria-hidden="true">&#9998;</span> Open scrapbook</button></div><div class="garden-memory-preview" id="gardenMemoryPreview"></div></section>
+      </div>
+
+      <div class="view-panel" id="view-games" data-panel="games">
+        <section class="page-heading"><div><div class="eyebrow">MOVE AT YOUR OWN PACE</div><h1>Play & wander</h1><p>No scores to chase. Just a little movement, fresh air, and a few things to find.</p></div><div class="play-streak"><span>✧</span><div><strong id="gameRewardLabel">Pearl Dust</strong><small>little rewards, every time</small></div></div></section>
+        <section class="game-grid">
+          <article class="game-card glide-card"><div class="game-art glide-art"><img class="game-scene-background" src="assets/game/backgrounds/thermal-gliding.webp" alt="Twilight clouds and floating islands for a thermal glide"><img class="game-scene-dragon" src="assets/characters/sky-drifter/skydrifter-flying.webp" alt="A young pearlescent dragon in flight"></div><div class="game-card-body"><div class="eyebrow">A SKY STRETCH</div><h2>Thermal gliding</h2><p>Drift through the warm air and gather light-motes. Move your finger to guide the glide.</p><div class="game-meta"><span>◷ About 30 seconds</span><span>✦ Pearl Dust</span></div><button class="primary-button" data-action="startGlide"><span>⌁</span> Take to the sky <span class="button-arrow">→</span></button></div></article>
+          <article class="game-card bounce-card"><div class="game-art bounce-art"><img class="game-scene-background" src="assets/game/backgrounds/crystal-bounce.webp" alt="A glowing astral cavern filled with crystals"><img class="game-catcher-art" src="assets/game/effects/catcher.webp" alt="A pearlescent basin for catching crystals"></div><div class="game-card-body"><div class="eyebrow">A CAVERN WIGGLE</div><h2>Crystal bounce</h2><p>Tap the drifting crystals before they settle. Take your time; the cave is very forgiving.</p><div class="game-meta"><span>◷ About 30 seconds</span><span>✦ Pearl Dust</span></div><button class="primary-button" data-action="startBounce"><span>◈</span> Find the crystals <span class="button-arrow">→</span></button></div></article>
+          <article class="game-card seek-card"><div class="game-art seek-art"><img class="game-scene-background" src="assets/game/hide-and-seek/whispering-reeds.jpg" alt="Moonlit pools and luminous reeds in Whispering Reeds"><img class="seek-card-reeds" src="assets/game/hide-and-seek/reeds.png" alt=""></div><div class="game-card-body"><div class="eyebrow">A RUSTLE IN THE REEDS</div><h2>Hide & seek</h2><p>A familiar little light is hiding in the moonlit marsh. The reeds are keeping a playful secret.</p><div class="game-meta"><span>Three unhurried rounds</span><span>✦ Pearl Dust</span></div><button class="primary-button" data-action="startSeek"><span aria-hidden="true">⌕</span> Find your dragon <span class="button-arrow" aria-hidden="true">→</span></button></div></article>
+        </section>
+        <section class="play-footnote"><span>♡</span><p>Games brighten the day. Your dragon can always choose a nap instead.</p></section>
+      </div>
+
+      <div class="view-panel" id="view-hoard" data-panel="hoard">
+        <section class="page-heading"><div><div class="eyebrow">ODDS, ENDS & OTHER LOVELY THINGS</div><h1>The curiosity hoard</h1><p>Found things have a way of becoming keepsakes.</p></div><div class="hoard-total"><span>◈</span><div><strong id="collectionCount">0</strong><small>curiosities</small></div></div></section>
+        <section class="hoard-intro"><div class="hoard-intro-symbol">✦</div><div><h2>Every treasure has a story.</h2><p>Your dragon takes little strolls around the sanctuary. Sometimes something small and unexpected finds its way home.</p></div><div class="next-find"><span class="next-find-icon">⌁</span><div><strong>Next little wander</strong><small id="nextFindLabel">Whenever the wind feels right</small></div></div></section>
+        <div class="section-title-row"><div><h2>Collected with care</h2><p>Things your dragon has brought back.</p></div><button class="text-button" id="sortHoardButton">Newest first <span>⌄</span></button></div>
+        <section class="collection-grid" id="collectionGrid"></section>
+        <section class="lineage-section" id="lineageSection"><div class="lineage-copy"><div class="eyebrow">A FAMILY, OVER TIME</div><h2>Some stories grow in pairs.</h2><p>When your first dragon has been with you for a year, a lineage egg may join the sanctuary. Your elder stays close, a guardian and a parent.</p><div class="lineage-progress"><div class="lineage-progress-top"><span id="lineageProgressLabel">A year of little moments</span><strong id="lineagePercent">0%</strong></div><div class="meter"><span id="lineageMeter"></span></div></div><button class="secondary-button hidden" id="lineageButton">Welcome a lineage egg <span>✧</span></button><button class="secondary-button hidden" id="lineageHatchButton" data-action="hatchLineage">Help the little one hatch <span>♫</span></button></div><div class="lineage-illustration"><div class="lineage-sun"></div><span class="lineage-parent">✧</span><span class="lineage-baby hidden" id="lineageBabyMark">✦</span><div class="lineage-ground"></div></div></section>
+      </div>
+
+      <div class="view-panel" id="view-journal" data-panel="journal">
+        <section class="page-heading"><div><div class="eyebrow">A RECORD OF SMALL WONDERS</div><h1>Field journal</h1><p>The little things you did together are worth keeping.</p></div><div class="journal-days"><span>✧</span><div><strong id="journalDays">Day one</strong><small>of your story</small></div></div></section>
+        <section class="journal-layout"><div class="journal-timeline"><div class="section-title-row"><div><h2>Recent pages</h2><p>A few notes from the sanctuary.</p></div></div><div class="journal-entries" id="journalEntries"></div></div><aside class="journal-sidebar"><div class="journal-memory-art"><span>✧</span><i>·</i><b>✦</b></div><div class="eyebrow">A LITTLE NOTE</div><h3>Time has room to be kind.</h3><p>There are no streaks to lose here. Your dragon's story keeps its place, however long you wander.</p><div class="journal-stat"><span>Sanctuary days</span><strong id="sanctuaryDays">1</strong></div><div class="journal-stat"><span>Shared moments</span><strong id="sharedMoments">0</strong></div><div class="journal-stat"><span>Things found</span><strong id="journalFinds">0</strong></div></aside></section>
+      </div>
+
+      <footer class="page-footer"><span>Made for slow mornings and small wonders.</span><span>LumaScale <i>✦</i> <span id="footerYear"></span></span></footer>
+    </main>
+  </div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <div class="modal-backdrop hidden" id="modalBackdrop" role="presentation">
+    <section class="modal-card" id="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></section>
+  </div>
+</body>
+</html>

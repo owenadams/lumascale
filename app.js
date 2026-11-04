@@ -497,6 +497,7 @@
     const stage = stageName();
     const hatchlingStage = Boolean(state.hatchedAt && stage === 'Hatchling');
     const growth = growthSummary();
+    document.querySelector('.app-shell').classList.toggle('is-unhatched', !state.hatchedAt);
     document.getElementById('seasonSidebar').textContent = season.name;
     document.getElementById('weatherIcon').textContent = season.icon;
     document.getElementById('weatherName').textContent = season.weather;
@@ -553,7 +554,10 @@
     renderGardenLife();
     document.getElementById('sceneActions').innerHTML = state.hatchedAt
       ? `<button class="soft-button" data-action="pet"><span>♡</span> Gentle petting</button><button class="soft-button" data-action="polish"><span>✦</span> Polish scales</button><button class="soft-button" data-action="startGlide"><span>⌁</span> Go gliding</button>`
-      : `<button class="soft-button" data-action="hum"><span>♫</span> Hum softly</button><button class="soft-button" data-action="warm"><span>☼</span> Tend embers</button><button class="soft-button" data-action="polishEgg"><span>✦</span> Polish shell</button>`;
+      : `<button class="primary-button first-step-button" data-action="warm"><span aria-hidden="true">☼</span> Warm the egg <span class="button-arrow" aria-hidden="true">→</span></button>`;
+    document.getElementById('careButtons').innerHTML = state.hatchedAt
+      ? `<button class="primary-button" data-action="pet"><span aria-hidden="true">♡</span><span id="petButtonText">Spend a quiet moment</span></button><button class="secondary-button" data-action="openFood"><span aria-hidden="true">◉</span> Offer a snack</button><button class="secondary-button" data-action="startGlide"><span aria-hidden="true">⌁</span> Go gliding</button>`
+      : `<details class="egg-more-actions"><summary>Other gentle ways</summary><div><button class="secondary-button" data-action="hum"><span aria-hidden="true">♫</span> Hum softly</button><button class="secondary-button" data-action="polishEgg"><span aria-hidden="true">✦</span> Polish the shell</button></div></details>`;
     document.getElementById('hatchProgressBlock').classList.toggle('hidden', Boolean(state.hatchedAt));
     document.getElementById('dragonStats').classList.toggle('hidden', !state.hatchedAt);
     document.getElementById('careTitle').textContent = !state.hatchedAt ? 'Getting ready to hatch' : state.slumbering ? 'A gentle wake-up' : `${state.name} is doing well`;
@@ -561,7 +565,8 @@
     document.getElementById('hatchPercent').textContent = `${state.hatchProgress}%`;
     document.getElementById('hatchMeter').style.width = `${state.hatchProgress}%`;
     document.getElementById('hatchHint').textContent = state.hatchProgress >= 75 ? 'A bright little crack runs through the shell.' : state.hatchProgress >= 35 ? 'A soft glow answers from within.' : 'The egg answers your touch.';
-    document.getElementById('petButtonText').textContent = state.slumbering ? 'Wake with a gentle touch' : !state.hatchedAt ? 'Rest a hand on the shell' : 'Spend a quiet moment';
+    const petButtonText = document.getElementById('petButtonText');
+    if (petButtonText) petButtonText.textContent = state.slumbering ? 'Wake with a gentle touch' : !state.hatchedAt ? 'Rest a hand on the shell' : 'Spend a quiet moment';
     document.getElementById('careStatus').textContent = !state.hatchedAt ? 'No rush. This little world will wait for you.' : state.slumbering ? 'Safe, warm, and ready when you are.' : 'Your dragon is safe here, even on quiet days.';
     document.getElementById('careButtons').classList.toggle('hatching-buttons', !state.hatchedAt);
     ['fullness', 'energy', 'mood', 'luster'].forEach(key => {
@@ -581,8 +586,8 @@
     renderHoardShelf();
     renderJournal();
     if (!state.hatchedAt) {
-      document.getElementById('welcomeTitle').textContent = 'A little light, every day.';
-      document.getElementById('welcomeSubtitle').textContent = 'Your sanctuary is right where you left it.';
+      document.getElementById('welcomeTitle').textContent = 'Help your little one hatch.';
+      document.getElementById('welcomeSubtitle').textContent = 'Start with a little warmth for the egg.';
     } else {
       document.getElementById('welcomeTitle').textContent = state.slumbering ? 'A soft hello is enough.' : `Good to see you, ${state.name}.`;
       document.getElementById('welcomeSubtitle').textContent = state.slumbering ? 'The garden kept a little warmth for your return.' : 'Your sanctuary is right where you left it.';

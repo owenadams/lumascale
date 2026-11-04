@@ -149,6 +149,59 @@ h1, h2, h3, p { margin-top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
+.soft-button { min-height: 42px; padding: 0 12px; border-color: #465564; border-radius: 7px; background: #222b38; color: #d7e2e4; font-size: 11px; }
+.soft-button:hover { border-color: #80cfc4; background: #293744; color: #e9fffb; }
+.primary-button, .secondary-button { min-height: 44px; padding: 0 14px; border-radius: 7px; font-size: 12px; }
+.primary-button { background: linear-gradient(110deg, #7be2d3, #a9dbc9 58%, #e8c89f); box-shadow: inset 0 1px #ffffff90, 0 6px 18px #5ed8d92c; color: #142a2a; }
+.primary-button:hover { background: linear-gradient(110deg, #91eedf, #bee9d4 58%, #f0d7b0); }
+.primary-button span:first-child { color: #315a52; }
+.secondary-button { border-color: #586574; background: #252d3b; color: #d9e3e5; }
+.secondary-button:hover { border-color: #80cfc4; background: #2c3944; color: #c9fff0; }
+.text-button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; width: auto; min-height: 42px; padding: 8px 12px; border: 1px solid #536474; border-radius: 7px; background: #222b38; color: #baf2e6; font-size: 11px; line-height: 1.35; text-align: center; text-decoration: none; white-space: normal; }
+.text-button:hover { border-color: #80cfc4; background: #2b3945; color: #e8fff9; }
+.text-button:focus-visible { outline: 3px solid #83bba1; outline-offset: 3px; }
+.text-button span { margin-left: 0; }
+.feature-strip .text-button { flex: 0 1 auto; max-width: 132px; }
+.curio-card .curio-story-button { width: 100%; justify-content: flex-start; margin-top: auto; padding: 8px 10px; text-align: left; }
+.garden-scrapbook-entries .text-button { color: #baf2e6; }
+.game-treasure-find .text-button, .garden-dragon-moment .text-button { color: #baf2e6; }
+.app-shell.is-unhatched #view-sanctuary .weather-chip,
+.app-shell.is-unhatched #view-sanctuary .growth-summary,
+.app-shell.is-unhatched #view-sanctuary .daily-card,
+.app-shell.is-unhatched #view-sanctuary .hoard-shelf-section,
+.app-shell.is-unhatched #view-sanctuary .bottom-row,
+.app-shell.is-unhatched #view-sanctuary .care-footer,
+.app-shell.is-unhatched #view-sanctuary .scene-location { display: none !important; }
+.app-shell.is-unhatched #view-sanctuary .welcome-row { margin-bottom: 14px; }
+.app-shell.is-unhatched #view-sanctuary .welcome-row h1 { font-size: 28px; }
+.app-shell.is-unhatched #view-sanctuary .sanctuary-grid { grid-template-columns: minmax(0, 1fr) minmax(260px, .7fr); align-items: start; }
+.app-shell.is-unhatched #view-sanctuary .care-column { display: block; }
+.app-shell.is-unhatched #view-sanctuary .care-card { padding: 20px; }
+.app-shell.is-unhatched #view-sanctuary .care-copy { min-height: 0; margin-bottom: 12px; font-size: 12px; }
+.app-shell.is-unhatched #view-sanctuary .hatch-progress { padding-bottom: 8px; }
+.app-shell.is-unhatched #view-sanctuary .care-buttons { display: block; }
+.app-shell.is-unhatched #view-sanctuary .egg-more-actions { margin-top: 12px; border-top: 1px solid #394451; }
+.app-shell.is-unhatched #view-sanctuary .egg-more-actions summary { display: flex; align-items: center; min-height: 44px; color: #bdc9d2; font-size: 12px; font-weight: 600; cursor: pointer; }
+.app-shell.is-unhatched #view-sanctuary .egg-more-actions[open] summary { margin-bottom: 8px; color: #d7e2e4; }
+.app-shell.is-unhatched #view-sanctuary .egg-more-actions > div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.app-shell.is-unhatched #view-sanctuary .first-step-button { width: min(100%, 300px); min-height: 52px; padding: 0 18px; border-radius: 9px; font-size: 14px; font-weight: 800; }
+.app-shell.is-unhatched #view-sanctuary .scene-actions { width: min(100%, 310px); }
+@media (max-width: 820px) {
+  .app-shell.is-unhatched #view-sanctuary .sanctuary-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-shell.is-unhatched #view-sanctuary .care-column { display: block; }
+}
+@media (max-width: 580px) {
+  .app-shell.is-unhatched #view-sanctuary .welcome-row { margin-bottom: 12px; }
+  .app-shell.is-unhatched #view-sanctuary .welcome-row h1 { font-size: 24px; }
+  .app-shell.is-unhatched #view-sanctuary .welcome-subtitle { font-size: 12px; }
+  .app-shell.is-unhatched #view-sanctuary .scene-sky { min-height: 285px; }
+  .app-shell.is-unhatched #view-sanctuary .scene-footer { align-items: center; }
+  .app-shell.is-unhatched #view-sanctuary .scene-actions { width: 100%; }
+  .app-shell.is-unhatched #view-sanctuary .first-step-button { width: 100%; }
+  .app-shell.is-unhatched #view-sanctuary .care-card { padding: 17px; }
+  .feature-strip .text-button { max-width: 112px; }
+}
+
 body { color: var(--ink); background: radial-gradient(ellipse at 48% -18%, #292b48 0, #171928 43%, #101221 78%) fixed; }
 .sidebar { border-color: #292b3b; background: #101221; }
 .brand, .brand strong, .nav-link.active, .card-heading h2, .daily-heading strong, .feature-text h3, .section-title-row h2, .food-card h3, .greenhouse-note h3, .seed-card h3, .game-card-body h2, .hoard-intro h2, .curio-card h3, .lineage-copy h2, .journal-entry h3, .journal-sidebar h3 { color: var(--ink); }

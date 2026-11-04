@@ -518,7 +518,7 @@
     document.getElementById('growthProgressBar').style.width = `${clamp(growth.progress)}%`;
     document.getElementById('nextMilestoneTitle').textContent = growth.next;
     document.getElementById('nextMilestoneDetail').textContent = growth.detail;
-    document.getElementById('sceneCaption').textContent = !state.hatchedAt ? 'Something luminous is dreaming in there.' : state.slumbering ? `${state.name} is curled up in a safe, quiet slumber.` : hatchlingStage ? `${state.name} is curled up in a little nest of starlight.` : state.lineageHatched ? `${state.name} is keeping a gentle watch over ${state.lineageName}.` : `${state.name} is watching the light move through the leaves.`;
+    document.getElementById('sceneCaption').textContent = !state.hatchedAt ? 'A steady warmth glows through the shell.' : state.slumbering ? `${state.name} tucked into the nest while you were away.` : hatchlingStage ? `${state.name} has found the warmest spot in the nest.` : state.lineageHatched ? `${state.name} is keeping an eye on ${state.lineageName}.` : `${state.name} is watching leaves move beyond the glass.`;
     document.getElementById('eggArtwork').classList.toggle('hidden', Boolean(state.hatchedAt));
     document.getElementById('dragonArtwork').classList.add('hidden');
     updateDragonArtwork();
@@ -554,14 +554,14 @@
     renderGardenLife();
     document.getElementById('sceneActions').innerHTML = state.hatchedAt
       ? `<button class="soft-button" data-action="pet"><span>♡</span> Gentle petting</button><button class="soft-button" data-action="polish"><span>✦</span> Polish scales</button><button class="soft-button" data-action="startGlide"><span>⌁</span> Go gliding</button>`
-      : `<button class="primary-button first-step-button" data-action="warm"><span aria-hidden="true">☼</span> Warm the egg <span class="button-arrow" aria-hidden="true">→</span></button>`;
+      : `<button class="primary-button first-step-button" data-action="warm"><span aria-hidden="true">☼</span> Warm ${escapeHtml(state.name)}'s egg <span class="button-arrow" aria-hidden="true">→</span></button>`;
     document.getElementById('careButtons').innerHTML = state.hatchedAt
       ? `<button class="primary-button" data-action="pet"><span aria-hidden="true">♡</span><span id="petButtonText">Spend a quiet moment</span></button><button class="secondary-button" data-action="openFood"><span aria-hidden="true">◉</span> Offer a snack</button><button class="secondary-button" data-action="startGlide"><span aria-hidden="true">⌁</span> Go gliding</button>`
       : `<details class="egg-more-actions"><summary>Other gentle ways</summary><div><button class="secondary-button" data-action="hum"><span aria-hidden="true">♫</span> Hum softly</button><button class="secondary-button" data-action="polishEgg"><span aria-hidden="true">✦</span> Polish the shell</button></div></details>`;
     document.getElementById('hatchProgressBlock').classList.toggle('hidden', Boolean(state.hatchedAt));
     document.getElementById('dragonStats').classList.toggle('hidden', !state.hatchedAt);
-    document.getElementById('careTitle').textContent = !state.hatchedAt ? 'Getting ready to hatch' : state.slumbering ? 'A gentle wake-up' : `${state.name} is doing well`;
-    document.getElementById('careCopy').textContent = !state.hatchedAt ? 'Every little kindness helps the light find its way out.' : state.slumbering ? 'No apologies needed. Rest a hand nearby and let the sanctuary wake slowly.' : 'No rush. A little hello goes a long way.';
+    document.getElementById('careTitle').textContent = !state.hatchedAt ? `${state.name}'s egg` : state.slumbering ? `${state.name} is still asleep` : `${state.name} is doing well`;
+    document.getElementById('careCopy').textContent = !state.hatchedAt ? 'Warm the shell to help your dragon hatch.' : state.slumbering ? 'Your dragon is safe and can wake whenever you are ready.' : `${state.name} is settled in. Choose something to do together.`;
     document.getElementById('hatchPercent').textContent = `${state.hatchProgress}%`;
     document.getElementById('hatchMeter').style.width = `${state.hatchProgress}%`;
     document.getElementById('hatchHint').textContent = state.hatchProgress >= 75 ? 'A bright little crack runs through the shell.' : state.hatchProgress >= 35 ? 'A soft glow answers from within.' : 'The egg answers your touch.';
@@ -586,11 +586,11 @@
     renderHoardShelf();
     renderJournal();
     if (!state.hatchedAt) {
-      document.getElementById('welcomeTitle').textContent = 'Help your little one hatch.';
-      document.getElementById('welcomeSubtitle').textContent = 'Start with a little warmth for the egg.';
+      document.getElementById('welcomeTitle').textContent = `${state.name}'s egg is waiting.`;
+      document.getElementById('welcomeSubtitle').textContent = 'A little warmth will help your dragon hatch.';
     } else {
-      document.getElementById('welcomeTitle').textContent = state.slumbering ? 'A soft hello is enough.' : `Good to see you, ${state.name}.`;
-      document.getElementById('welcomeSubtitle').textContent = state.slumbering ? 'The garden kept a little warmth for your return.' : 'Your sanctuary is right where you left it.';
+      document.getElementById('welcomeTitle').textContent = state.slumbering ? `${state.name} is asleep.` : `Welcome back, ${state.name}.`;
+      document.getElementById('welcomeSubtitle').textContent = state.slumbering ? 'They tucked into the nest while you were away. Wake them with a gentle touch.' : `${state.name} is waiting in the glasshouse garden.`;
     }
   }
 

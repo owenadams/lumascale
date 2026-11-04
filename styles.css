@@ -91,7 +91,7 @@ h1, h2, h3, p { margin-top: 0; }
 .scene-header { position: absolute; z-index: 2; top: 17px; right: 17px; left: 18px; display: flex; align-items: center; justify-content: space-between; }
 .scene-location { display: flex; align-items: center; gap: 5px; color: #6c8370; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
 .location-mark { font-size: 16px; }
-.stage-pill { padding: 6px 9px; border: 1px solid #ffffffac; border-radius: 20px; background: #ffffff7a; color: #6d806c; font-size: 8px; font-weight: 700; letter-spacing: .1em; }
+.stage-pill { padding: 6px 10px; border: 1px solid #b8caaa; border-radius: 6px; background: #263a38ed; box-shadow: 0 2px 8px #111a1e45; color: #f3f1dc; font-size: 9px; font-weight: 700; letter-spacing: .06em; }
 .scene-sun { position: absolute; top: 70px; left: 54%; width: 114px; height: 114px; border-radius: 50%; background: radial-gradient(circle, #fff7dca8 0 33%, #fff7d866 35% 58%, #fff7d622 60% 100%); }
 .scene-cloud { position: absolute; width: 105px; height: 24px; border-radius: 50%; background: #ffffff63; filter: blur(1px); }
 .scene-cloud::before, .scene-cloud::after { position: absolute; bottom: 7px; width: 43px; height: 37px; border-radius: 50%; background: inherit; content: ''; }

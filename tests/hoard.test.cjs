@@ -7,7 +7,7 @@ const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 const startup = source.lastIndexOf('\n  applyElapsedTime();');
 assert.ok(startup > 0, 'App startup boundary must exist');
-const instrumented = source.slice(0, startup) + '\n render = () => {}; closeModal = () => {}; showToast = () => {}; scheduleGardenGrowth = () => {}; globalThis.hoardTest = { state: () => state, save, refreshHoardMemories, rewardHoardVisit, endGame, curiosities, hoardGamePools, refreshGardenLife, rememberGardenCrop, gardenPlants, gardenVisitors, gardenSeason, plantBorder, visitGarden, setGardenSeason, makeGardenMoment, addGardenMemory, plantCrop, harvestReadyGarden, setBorderSlot: slot => { borderSlot = slot; } };\n})();';
+const instrumented = source.slice(0, startup) + '\n render = () => {}; closeModal = () => {}; showToast = () => {}; scheduleGardenGrowth = () => {}; globalThis.hoardTest = { state: () => state, save, refreshHoardMemories, rewardHoardVisit, endGame, curiosities, hoardGamePools, refreshGardenLife, rememberGardenCrop, gardenPlants, gardenVisitors, gardenSeason, plantBorder, visitGarden, setGardenSeason, makeGardenMoment, addGardenMemory, plantCrop, harvestReadyGarden, setBorderSlot: slot => { borderSlot = slot; }, dragonSpeciesIds, dragonSpeciesCatalog, randomDragonSpecies, dragonPosesForStage };\n})();';
 const day = 86400000;
 
 function sanctuary(overrides = {}) {
@@ -296,4 +296,33 @@ test('a slumbering dragon can enjoy the garden without being forced awake', () =
   app.visitGarden();
   assert.equal(app.state().gardenLife.moment.pose, 'sleeping');
   assert.equal(app.state().slumbering, true);
+});
+
+test('new hatch rolls select each dragon with equal one-in-three odds', () => {
+  const app = sanctuary({ hatchedAt: null });
+  assert.deepEqual([...app.dragonSpeciesIds], ['pearlescent', 'abyssal-opal', 'solar-ember']);
+  assert.equal(app.randomDragonSpecies(0), 'pearlescent');
+  assert.equal(app.randomDragonSpecies(1 / 3), 'abyssal-opal');
+  assert.equal(app.randomDragonSpecies(2 / 3), 'solar-ember');
+  assert.equal(app.randomDragonSpecies(1), 'solar-ember');
+});
+
+test('legacy hatched saves keep the pearlescent species and do not reroll', () => {
+  const app = sanctuary({ hatchedAt: Date.now() - day, dragonSpecies: undefined });
+  assert.equal(app.state().dragonSpecies, 'pearlescent');
+  app.save();
+  const reloaded = sanctuary(app.saved());
+  assert.equal(reloaded.state().dragonSpecies, 'pearlescent');
+});
+
+test('each species has an available idle image for every growth stage', () => {
+  const app = sanctuary({ hatchedAt: Date.now() });
+  for (const species of app.dragonSpeciesIds) {
+    app.state().dragonSpecies = species;
+    for (const stage of ['Hatchling', 'Sky-Drifter', 'Prism Drake', 'Sovereign Elder']) {
+      const poses = app.dragonPosesForStage(stage);
+      assert.ok(poses.idle, `${species} ${stage} idle art`);
+      assert.ok(fs.existsSync(path.join(__dirname, '..', poses.idle)), poses.idle);
+    }
+  }
 });

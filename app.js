@@ -62,6 +62,28 @@
     'Prism Drake': { idle: 'assets/characters/prism-drake/adult-idle.webp' },
     'Sovereign Elder': { idle: 'assets/characters/prism-drake/adult-idle.webp' }
   };
+  const dragonSpeciesCatalog = {
+    pearlescent: { name: 'Pearlescent', poses: dragonPoseAssets },
+    'abyssal-opal': {
+      name: 'Abyssal Opal',
+      poses: {
+        Hatchling: { idle: 'assets/characters/abyssal-opal/hatchling-idle.png', bond: 'assets/characters/abyssal-opal/hatchling-happy.png', wake: 'assets/characters/abyssal-opal/hatchling-happy.png', snack: 'assets/characters/abyssal-opal/hatchling-idle.png', sleeping: 'assets/characters/abyssal-opal/hatchling-idle.png', play: 'assets/characters/abyssal-opal/hatchling-happy.png' },
+        'Sky-Drifter': { idle: 'assets/characters/abyssal-opal/sky-drifter-idle.png', bond: 'assets/characters/abyssal-opal/sky-drifter-idle.png', wake: 'assets/characters/abyssal-opal/sky-drifter-idle.png', snack: 'assets/characters/abyssal-opal/sky-drifter-idle.png', sleeping: 'assets/characters/abyssal-opal/sky-drifter-idle.png', play: 'assets/characters/abyssal-opal/sky-drifter-flying.png', landing: 'assets/characters/abyssal-opal/sky-drifter-flying.png' },
+        'Prism Drake': { idle: 'assets/characters/abyssal-opal/prism-drake.png' },
+        'Sovereign Elder': { idle: 'assets/characters/abyssal-opal/sovereign-elder.png' }
+      }
+    },
+    'solar-ember': {
+      name: 'Solar Ember',
+      poses: {
+        Hatchling: { idle: 'assets/characters/solar-ember/hatchling-idle.png', bond: 'assets/characters/solar-ember/hatchling-happy.png', wake: 'assets/characters/solar-ember/hatchling-happy.png', snack: 'assets/characters/solar-ember/hatchling-idle.png', sleeping: 'assets/characters/solar-ember/hatchling-idle.png', play: 'assets/characters/solar-ember/hatchling-happy.png' },
+        'Sky-Drifter': { idle: 'assets/characters/solar-ember/sky-drifter-idle.png', bond: 'assets/characters/solar-ember/sky-drifter-idle.png', wake: 'assets/characters/solar-ember/sky-drifter-idle.png', snack: 'assets/characters/solar-ember/sky-drifter-idle.png', sleeping: 'assets/characters/solar-ember/sky-drifter-idle.png', play: 'assets/characters/solar-ember/sky-drifter-flying.png', landing: 'assets/characters/solar-ember/sky-drifter-flying.png' },
+        'Prism Drake': { idle: 'assets/characters/solar-ember/sky-drifter-idle.png' },
+        'Sovereign Elder': { idle: 'assets/characters/solar-ember/sovereign-elder.png' }
+      }
+    }
+  };
+  const dragonSpeciesIds = Object.keys(dragonSpeciesCatalog);
   const gardenPlants = [
     { id: 'bellflower', name: 'Bellflowers', image: 'assets/greenhouse/decorations/bellflower.png', note: 'Little bells listening for the breeze.' },
     { id: 'reeds', name: 'Luminous reeds', image: 'assets/game/hide-and-seek/reeds.png', note: 'A soft green glow beside the water.' },
@@ -85,6 +107,7 @@
     lastVisitAt: Date.now(),
     hatchedAt: null,
     hatchProgress: 0,
+    dragonSpecies: null,
     timeSkipDays: 0,
     name: 'Luma',
     temperament: 'curious',
@@ -136,6 +159,7 @@
       if (saved && saved.version === 1) {
         const defaults = defaultState();
         const loaded = { ...defaults, ...saved, stats: { ...defaults.stats, ...saved.stats }, inventory: { ...defaults.inventory, ...saved.inventory }, checks: { ...defaults.checks, ...saved.checks } };
+        loaded.dragonSpecies = dragonSpeciesCatalog[saved.dragonSpecies] ? saved.dragonSpecies : saved.hatchedAt ? 'pearlescent' : null;
         if (!Array.isArray(saved.gardenPlots)) {
           loaded.gardenPlots = saved.plantedAt ? [{ cropId: 'moon-berries', plantedAt: saved.plantedAt, readyAt: saved.gardenReady ? saved.plantedAt : saved.plantedAt + GARDEN_GROWTH_MS }] : [];
         }
@@ -281,6 +305,17 @@
     if (days < 180) return 'Sky-Drifter';
     if (days < 365) return 'Prism Drake';
     return 'Sovereign Elder';
+  }
+  function randomDragonSpecies(roll = Math.random()) {
+    const index = Math.min(dragonSpeciesIds.length - 1, Math.floor(Math.max(0, roll) * dragonSpeciesIds.length));
+    return dragonSpeciesIds[index];
+  }
+  function dragonPosesForStage(stage) {
+    const species = dragonSpeciesCatalog[state.dragonSpecies] || dragonSpeciesCatalog.pearlescent;
+    return species.poses[stage] || species.poses['Prism Drake'] || dragonPoseAssets['Prism Drake'];
+  }
+  function dragonSpeciesName() {
+    return (dragonSpeciesCatalog[state.dragonSpecies] || dragonSpeciesCatalog.pearlescent).name;
   }
   function gardenPlotCapacity() {
     return ({ 'Opal Egg': 1, Hatchling: 1, 'Sky-Drifter': 2, 'Prism Drake': 3, 'Sovereign Elder': 4 })[stageName()] || 1;
@@ -442,12 +477,12 @@
       return;
     }
     const stage = stageName();
-    const poses = dragonPoseAssets[stage] || dragonPoseAssets['Prism Drake'];
+    const poses = dragonPosesForStage(stage);
     const pose = state.slumbering ? 'sleeping' : dragonPose;
     const source = poses[pose] || poses.idle;
     if (image.getAttribute('src') !== source) image.setAttribute('src', source);
     image.dataset.stage = stage;
-    image.alt = `${state.name}, ${pose === 'idle' ? stage.toLowerCase() : pose}`;
+    image.alt = `${state.name}, ${dragonSpeciesName()} ${pose === 'idle' ? stage.toLowerCase() : pose}`;
     image.classList.remove('hidden');
   }
   function drawSceneImage(context, image, width, height, offsetX = 0, zoom = 1) {
@@ -507,9 +542,13 @@
     document.getElementById('dustCount').textContent = state.pearlDust;
     document.getElementById('hoardCount').textContent = state.items.length;
     document.getElementById('collectionCount').textContent = state.items.length;
-    document.getElementById('stagePill').textContent = stageLabel();
+    document.querySelectorAll('.game-scene-dragon').forEach(image => {
+      const poses = state.hatchedAt ? dragonPosesForStage(stageName()) : dragonPoseAssets['Sky-Drifter'];
+      image.src = poses.play || poses.idle;
+      image.alt = `${state.name}, ${dragonSpeciesName()} in flight`;
+    });
     document.getElementById('dragonNameLabel').textContent = state.hatchedAt ? state.name : 'A little one, not yet named';
-    document.getElementById('ageLabel').textContent = state.hatchedAt ? humanAge() : 'Your story starts here';
+    document.getElementById('ageLabel').textContent = state.hatchedAt ? `${dragonSpeciesName()} · ${humanAge()}` : 'Your story starts here';
     document.getElementById('avatarInitial').textContent = state.hatchedAt ? state.name.slice(0, 1).toUpperCase() : '✧';
     document.getElementById('identityMark').textContent = state.hatchedAt ? '✧' : '✧';
     document.getElementById('growthStageLabel').textContent = growth.stage;
@@ -651,10 +690,10 @@
       sanctuary.classList.toggle('hidden', !state.gardenLife.borders.some(Boolean));
     }
     const moment = state.gardenLife.moment;
-    const poses = dragonPoseAssets[stageName()] || dragonPoseAssets.Hatchling;
+    const poses = dragonPosesForStage(stageName());
     const dragon = document.getElementById('gardenDragonPortrait');
     dragon.src = poses[moment?.pose || 'idle'] || poses.idle;
-    dragon.alt = `${state.name} in the garden`;
+    dragon.alt = `${state.name}, ${dragonSpeciesName()}, in the garden`;
     dragon.classList.toggle('hidden', !state.hatchedAt);
     document.getElementById('gardenMomentTitle').textContent = moment?.title || 'A place to spend a little time';
     document.getElementById('gardenMomentBody').textContent = moment?.body || 'The leaves are still, and a little warmth lingers by the beds.';
@@ -850,6 +889,7 @@
     commit();
   }
   function hatchDragon() {
+    state.dragonSpecies = dragonSpeciesCatalog[state.dragonSpecies] ? state.dragonSpecies : randomDragonSpecies();
     state.hatchedAt = Date.now() + state.timeSkipDays * DAY_MS;
     state.name = state.name || 'Luma';
     state.stats = { fullness: 76, energy: 82, mood: 91, luster: clamp(62 + state.hatchProgress / 5) };
@@ -858,8 +898,9 @@
     state.moments += 1;
     addJournal('hatch', 'A new little dragon', `${state.name} blinked at the garden light and decided it felt like home.`);
     document.getElementById('modalBackdrop').classList.remove('hidden');
-    document.getElementById('modalCard').innerHTML = `<button class="modal-close" data-action="closeModal" aria-label="Close">×</button><div class="modal-eyebrow">A BRAND-NEW BEGINNING</div><div class="hatch-celebration-art">✧</div><h2 id="modalTitle">Hello, little light.</h2><p>Your dragon hatched right into a safe place. What shall we call them?</p><label class="modal-label" for="dragonNameInput">DRAGON NAME</label><input class="modal-input" id="dragonNameInput" maxlength="18" value="${escapeHtml(state.name)}"><div class="modal-actions"><button class="primary-button" data-action="saveDragonName">Meet ${escapeHtml(state.name)} <span>→</span></button></div>`;
-    document.querySelector('.hatch-celebration-art').style.cssText = 'display:grid;place-items:center;width:100%;height:95px;margin:12px 0;border-radius:7px;background:linear-gradient(135deg,#e3efe1,#f5e8d7);color:#75a18c;font-size:58px;text-shadow:0 0 22px #fff;';
+    const species = dragonSpeciesCatalog[state.dragonSpecies];
+    const hatchling = species.poses.Hatchling.idle;
+    document.getElementById('modalCard').innerHTML = `<button class="modal-close" data-action="closeModal" aria-label="Close">×</button><div class="modal-eyebrow">A BRAND-NEW BEGINNING</div><div class="hatch-celebration-art"><img src="${hatchling}" alt="A ${escapeHtml(species.name)} hatchling"></div><h2 id="modalTitle">Meet your ${escapeHtml(species.name)}.</h2><p>A ${escapeHtml(species.name)} has hatched into your garden. What shall we call them?</p><label class="modal-label" for="dragonNameInput">DRAGON NAME</label><input class="modal-input" id="dragonNameInput" maxlength="18" value="${escapeHtml(state.name)}"><div class="modal-actions"><button class="primary-button" data-action="saveDragonName">Meet ${escapeHtml(state.name)} <span>→</span></button></div>`;
     playTone(660, .28);
   }
   function meetDragon() {
@@ -1125,7 +1166,7 @@
     } else playTone(330, .06);
     renderHideSeek();
     if (seekGame.found) {
-      const poses = dragonPoseAssets[stageName()] || dragonPoseAssets['Prism Drake'];
+      const poses = dragonPosesForStage(stageName());
       document.querySelector('.seek-found-dragon').src = poses.play || poses.idle;
       document.querySelector('[data-action="nextSeek"]').focus({ preventScroll: true });
     }
@@ -1164,7 +1205,7 @@
     const loadGameImage = source => { const image = new Image(); image.src = source; return image; };
     const game = { type, width, height, points: 0, startedAt: performance.now(), duration: 30000, motes: [], pointer: { x: width * .3, y: height * .53, active: false }, trail: [], crystals: [], effects: [], clouds: [], frame: 0, ended: false, sceneImage: loadGameImage(type === 'glide' ? 'assets/game/backgrounds/thermal-gliding.webp' : 'assets/game/backgrounds/crystal-bounce.webp'), art: {} };
     game.art = type === 'glide'
-      ? { mote: loadGameImage('assets/game/effects/light-motes-cluster.webp'), wind: loadGameImage('assets/game/effects/wind-trail.webp'), cloud: loadGameImage('assets/game/effects/storm-cloud.webp'), dragon: loadGameImage('assets/characters/sky-drifter/skydrifter-flying.webp') }
+      ? { mote: loadGameImage('assets/game/effects/light-motes-cluster.webp'), wind: loadGameImage('assets/game/effects/wind-trail.webp'), cloud: loadGameImage('assets/game/effects/storm-cloud.webp'), dragon: loadGameImage((dragonPosesForStage(stageName()).play || dragonPosesForStage(stageName()).idle)) }
       : { gems: ['cyan', 'rose', 'gold'].map(color => loadGameImage(`assets/game/crystals/${color}.webp`)), catcher: loadGameImage('assets/game/effects/catcher.webp'), impact: loadGameImage('assets/game/effects/catch-impact.webp') };
     if (type === 'glide') game.clouds = [{ x: width * .08, y: height * .23, speed: .16, scale: .78 }, { x: width * .83, y: height * .7, speed: -.1, scale: .58 }];
     for (let index = 0; index < 6; index += 1) game.motes.push({ x: Math.random() * width, y: 45 + Math.random() * (height - 100), phase: Math.random() * 7 });

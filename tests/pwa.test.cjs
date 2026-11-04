@@ -70,6 +70,7 @@ test('phone manifest and icon dimensions support project-relative installation',
 
 test('public build precaches only existing app files and artwork', () => {
   assert.ok(build.files.length > 50);
+  assert.ok(build.files.includes('readability.css'));
   for (const file of build.files) {
     assert.ok(!file.startsWith('/') && !file.includes('..'), file);
     assert.ok(!/Stitch Files|processed-preview|\.zip|\.env|credentials|token\.json|tests\//i.test(file), file);

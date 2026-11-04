@@ -4,7 +4,7 @@ const crypto = require('node:crypto');
 
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, process.argv.includes('--preview') ? '.pages-preview/lumascale' : '_site');
-const core = ['index.html', 'styles.css', 'app.js', 'pwa.js', 'manifest.webmanifest', 'sw.js'];
+const core = ['index.html', 'styles.css', 'readability.css', 'app.js', 'pwa.js', 'manifest.webmanifest', 'sw.js'];
 const assets = [];
 function collect(directory) {
   for (const entry of fs.readdirSync(path.join(root, directory), { withFileTypes: true })) {

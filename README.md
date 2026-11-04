@@ -19,6 +19,8 @@ Public app: https://owenadams.github.io/lumascale/
 
 Open the app online once and let its initial offline installation finish. The installed app can then open the sanctuary, garden, hoard, and minigames without a local server or internet connection. Google-hosted fonts may fall back to local fonts offline; all game artwork is included in the offline cache.
 
+Interface text sizes are tuned for comfortable reading on phones; detailed reading controls and story copy use larger type than compact metadata labels.
+
 Progress stays in this device/browser's local storage. GitHub does not receive the save, there is no account sync, and progress from a localhost or local-network address does not automatically transfer to the public address. Clearing site data can erase the save. Installing the app does not add cloud backup or cross-device synchronization.
 
 New releases download in the background. An update icon appears when a replacement is ready; choosing it activates the new version and reloads the app. Updates do not deliberately reload an active game or alter the local save. The normal root localhost development server does not register the service worker, preventing stale development pages.

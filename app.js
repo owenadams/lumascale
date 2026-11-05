@@ -88,7 +88,7 @@
     { id: 'bellflower', name: 'Bellflowers', image: 'assets/greenhouse/decorations/bellflower.png', note: 'Little bells listening for the breeze.' },
     { id: 'reeds', name: 'Luminous reeds', image: 'assets/game/hide-and-seek/reeds.png', note: 'A soft green glow beside the water.' },
     { id: 'moss', name: 'Velvet moss', image: 'assets/greenhouse/decorations/moss.png', note: 'A soft place for small feet and sleepy dragons.' },
-    { id: 'vine', name: 'Starlace vine', image: 'assets/greenhouse/decorations/vine.png', note: 'Leaves finding their own gentle way upward.' },
+    { id: 'vine', name: 'Starlace vine', image: 'assets/greenhouse/decorations/vine-transparent.png', note: 'Leaves finding their own gentle way upward.' },
     { id: 'moonmist', name: 'Moonmist Blossoms', image: 'assets/greenhouse/decorations/moonmist.png', note: 'Moon-berry pollen meets the cool mist of melons.', crops: ['moon-berries', 'mist-melons'] },
     { id: 'emberbell', name: 'Ember Bells', image: 'assets/greenhouse/decorations/emberbell.png', note: 'Sun-pepper warmth and a little moon-berry sweetness.', crops: ['sun-peppers', 'moon-berries'] },
     { id: 'crystalfern', name: 'Crystal Fern', image: 'assets/greenhouse/decorations/crystalfern.png', note: 'Quartz-root sparkle in a mist-melon garden.', crops: ['quartz-root', 'mist-melons'] },

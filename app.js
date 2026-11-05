@@ -532,6 +532,23 @@
     const stage = stageName();
     const hatchlingStage = Boolean(state.hatchedAt && stage === 'Hatchling');
     const growth = growthSummary();
+    const guide = !state.hatchedAt
+      ? { eyebrow: 'START HERE', title: 'Help the egg hatch', copy: `Tap "Warm ${state.name}'s egg" beside the nest. Each touch adds warmth; there is no timer to beat.`, action: 'warm' }
+      : state.slumbering
+        ? { eyebrow: "WHEN YOU'RE READY", title: `Wake ${state.name} gently`, copy: 'Your dragon stayed safe while you were away. Tap "Wake with a gentle touch" when you are ready.', action: 'pet' }
+        : !state.checks.bond
+          ? { eyebrow: 'TRY THIS NEXT', title: 'Say hello', copy: 'Choose "Spend a quiet moment" in this panel. That is all it takes to say hello.', action: 'pet' }
+          : !state.checks.nourish
+            ? { eyebrow: 'TRY THIS NEXT', title: 'Offer a snack', copy: 'Tap "Offer a snack" to see the choices. Nothing is used until you pick a food.', action: 'openFood' }
+            : !state.checks.play
+              ? { eyebrow: 'TRY THIS NEXT', title: 'Play a game', copy: 'Tap "Go gliding" here for a short game, or open Games to choose another. Games are optional.', action: 'startGlide' }
+              : { eyebrow: 'ALL CAUGHT UP', title: 'Nothing else is needed today', copy: 'Your dragon is safe while you are away. There are no streaks to keep.', action: 'pet' };
+    const careActions = [
+      { action: 'pet', icon: '♡', label: state.slumbering ? 'Wake with a gentle touch' : 'Spend a quiet moment' },
+      { action: 'openFood', icon: '◉', label: 'Offer a snack' },
+      { action: 'startGlide', icon: '⌁', label: 'Go gliding' }
+    ];
+    const orderedCareActions = [...careActions].sort((first, second) => Number(second.action === guide.action) - Number(first.action === guide.action));
     document.querySelector('.app-shell').classList.toggle('is-unhatched', !state.hatchedAt);
     document.getElementById('seasonSidebar').textContent = season.name;
     document.getElementById('weatherIcon').textContent = season.icon;
@@ -595,24 +612,23 @@
       ? `<button class="soft-button" data-action="pet"><span>♡</span> Gentle petting</button><button class="soft-button" data-action="polish"><span>✦</span> Polish scales</button><button class="soft-button" data-action="startGlide"><span>⌁</span> Go gliding</button>`
       : `<button class="primary-button first-step-button" data-action="warm"><span aria-hidden="true">☼</span> Warm ${escapeHtml(state.name)}'s egg <span class="button-arrow" aria-hidden="true">→</span></button>`;
     document.getElementById('careButtons').innerHTML = state.hatchedAt
-      ? `<button class="primary-button" data-action="pet"><span aria-hidden="true">♡</span><span id="petButtonText">Spend a quiet moment</span></button><button class="secondary-button" data-action="openFood"><span aria-hidden="true">◉</span> Offer a snack</button><button class="secondary-button" data-action="startGlide"><span aria-hidden="true">⌁</span> Go gliding</button>`
+      ? orderedCareActions.map(({ action, icon, label }, index) => `<button class="${index === 0 ? 'primary-button' : 'secondary-button'}" data-action="${action}"><span aria-hidden="true">${icon}</span> ${label}</button>`).join('')
       : `<details class="egg-more-actions"><summary>Other gentle ways</summary><div><button class="secondary-button" data-action="hum"><span aria-hidden="true">♫</span> Hum softly</button><button class="secondary-button" data-action="polishEgg"><span aria-hidden="true">✦</span> Polish the shell</button></div></details>`;
     document.getElementById('hatchProgressBlock').classList.toggle('hidden', Boolean(state.hatchedAt));
     document.getElementById('dragonStats').classList.toggle('hidden', !state.hatchedAt);
-    document.getElementById('careTitle').textContent = !state.hatchedAt ? `${state.name}'s egg` : state.slumbering ? `${state.name} is still asleep` : `${state.name} is doing well`;
-    document.getElementById('careCopy').textContent = !state.hatchedAt ? 'Warm the shell to help your dragon hatch.' : state.slumbering ? 'Your dragon is safe and can wake whenever you are ready.' : `${state.name} is settled in. Choose something to do together.`;
+    document.getElementById('careEyebrow').textContent = guide.eyebrow;
+    document.getElementById('careTitle').textContent = guide.title;
+    document.getElementById('careCopy').textContent = guide.copy;
     document.getElementById('hatchPercent').textContent = `${state.hatchProgress}%`;
     document.getElementById('hatchMeter').style.width = `${state.hatchProgress}%`;
     document.getElementById('hatchHint').textContent = state.hatchProgress >= 75 ? 'A bright little crack runs through the shell.' : state.hatchProgress >= 35 ? 'A soft glow answers from within.' : 'The egg answers your touch.';
-    const petButtonText = document.getElementById('petButtonText');
-    if (petButtonText) petButtonText.textContent = state.slumbering ? 'Wake with a gentle touch' : !state.hatchedAt ? 'Rest a hand on the shell' : 'Spend a quiet moment';
     document.getElementById('careStatus').textContent = !state.hatchedAt ? 'No rush. This little world will wait for you.' : state.slumbering ? 'Safe, warm, and ready when you are.' : 'Your dragon is safe here, even on quiet days.';
     document.getElementById('careButtons').classList.toggle('hatching-buttons', !state.hatchedAt);
     ['fullness', 'energy', 'mood', 'luster'].forEach(key => {
       document.getElementById(`${key}Value`).textContent = state.stats[key];
       document.getElementById(`${key}Meter`).style.width = `${state.stats[key]}%`;
     });
-    document.getElementById('dailyProgressText').textContent = `${Object.values(state.checks).filter(Boolean).length} of 3 little moments`;
+    document.getElementById('dailyProgressText').textContent = `${Object.values(state.checks).filter(Boolean).length} of 3 moments today`;
     document.querySelectorAll('.check-item').forEach(item => item.classList.toggle('done', Boolean(state.checks[item.dataset.check])));
     document.getElementById('hoardTeaserTitle').textContent = state.items.length ? `${state.items[0].name} found its way home` : 'Curiosities find their way home';
     document.getElementById('hoardTeaser').textContent = state.items.length ? state.items[0].note : 'Your dragon may bring back a tiny treasure while you are away.';

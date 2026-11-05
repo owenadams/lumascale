@@ -29,11 +29,11 @@
       </a>
       <div class="sidebar-label">SANCTUARY</div>
       <nav class="main-nav">
-        <button class="nav-link active" data-view="sanctuary"><span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-label">Sanctuary</span></button>
-        <button class="nav-link" data-view="greenhouse"><span class="nav-icon" aria-hidden="true">❋</span><span class="nav-label">Greenhouse</span><span class="nav-dot" id="greenhouseDot"></span></button>
-        <button class="nav-link" data-view="games"><span class="nav-icon" aria-hidden="true">✧</span><span class="nav-label">Play & wander</span></button>
-        <button class="nav-link" data-view="hoard"><span class="nav-icon" aria-hidden="true">◈</span><span class="nav-label">Curiosity hoard</span><span class="nav-count" id="hoardCount">0</span></button>
-        <button class="nav-link" data-view="journal"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label">Field journal</span></button>
+        <button class="nav-link active" data-view="sanctuary" title="Care for your dragon and watch it grow"><span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-label">Home</span></button>
+        <button class="nav-link" data-view="greenhouse" title="Grow food and tend your garden"><span class="nav-icon" aria-hidden="true">❋</span><span class="nav-label">Garden</span><span class="nav-dot" id="greenhouseDot"></span></button>
+        <button class="nav-link" data-view="games" title="Play short, no-pressure games"><span class="nav-icon" aria-hidden="true">✧</span><span class="nav-label">Games</span></button>
+        <button class="nav-link" data-view="hoard" title="Read stories about the treasures your dragon finds"><span class="nav-icon" aria-hidden="true">◈</span><span class="nav-label">Keepsakes</span><span class="nav-count" id="hoardCount">0</span></button>
+        <button class="nav-link" data-view="journal" title="Read memories from your time together"><span class="nav-icon" aria-hidden="true">▤</span><span class="nav-label">Journal</span></button>
       </nav>
       <div class="sidebar-bottom">
         <div class="season-note"><span class="season-orb" aria-hidden="true"></span><div><strong id="seasonSidebar">First bloom</strong><small>Season of the sanctuary</small></div></div>
@@ -121,8 +121,9 @@
 
           <aside class="care-column">
             <article class="care-card">
-              <div class="card-heading"><div><div class="eyebrow">A GENTLE CHECK-IN</div><h2 id="careTitle">Getting ready to hatch</h2></div><span class="mood-spark" id="moodSpark">✧</span></div>
+              <div class="card-heading"><div><div class="eyebrow" id="careEyebrow">START HERE</div><h2 id="careTitle">Help the egg hatch</h2></div><span class="mood-spark" id="moodSpark">✧</span></div>
               <p class="care-copy" id="careCopy">Every little kindness helps the light find its way out.</p>
+              <div class="care-buttons" id="careButtons"><button class="primary-button" data-action="pet"><span aria-hidden="true">♡</span><span id="petButtonText">Rest a hand on the shell</span></button><button class="secondary-button" data-action="openFood"><span aria-hidden="true">◉</span> Offer a snack</button><button class="secondary-button" data-action="startGlide"><span aria-hidden="true">⌁</span> Go gliding</button></div>
               <section class="growth-summary" id="growthSummary" aria-live="polite"><div class="growth-summary-heading"><div><div class="eyebrow" id="growthStageLabel">OPAL EGG</div><strong id="dragonAgeDisplay">Hatching journey</strong></div><span class="growth-progress-value" id="growthProgressValue">0%</span></div><div class="meter growth-meter"><span id="growthProgressBar"></span></div><div class="growth-next"><span class="eyebrow">COMING NEXT</span><div><strong id="nextMilestoneTitle">Hatchling</strong><small id="nextMilestoneDetail">A little dragon is dreaming inside.</small></div></div></section>
               <div class="hatch-progress" id="hatchProgressBlock"><div class="progress-heading"><span>Shell warmth</span><strong id="hatchPercent">0%</strong></div><div class="meter hatch-meter"><span id="hatchMeter"></span></div><div class="hatch-hint" id="hatchHint">The egg answers your touch.</div></div>
               <div class="stat-list hidden" id="dragonStats">
@@ -131,10 +132,9 @@
                 <div class="stat-row"><span class="stat-icon joy-icon">♡</span><div class="stat-main"><div class="stat-label"><span>Contentment</span><strong id="moodValue">82</strong></div><div class="meter"><span id="moodMeter"></span></div></div></div>
                 <div class="stat-row"><span class="stat-icon luster-icon">✦</span><div class="stat-main"><div class="stat-label"><span>Scale luster</span><strong id="lusterValue">68</strong></div><div class="meter"><span id="lusterMeter"></span></div></div></div>
               </div>
-              <div class="care-buttons" id="careButtons"><button class="primary-button" data-action="pet"><span aria-hidden="true">♡</span><span id="petButtonText">Rest a hand on the shell</span></button><button class="secondary-button" data-action="openFood"><span aria-hidden="true">◉</span> Offer a snack</button><button class="secondary-button" data-action="startGlide"><span aria-hidden="true">⌁</span> Go gliding</button></div>
               <div class="care-footer"><span class="care-status-dot"></span><span id="careStatus">No rush. This little world will wait for you.</span></div>
             </article>
-            <article class="daily-card"><div class="daily-heading"><span class="sunflower">✿</span><div><strong>Today, together</strong><small id="dailyProgressText">A few quiet moments are enough</small></div></div><div class="daily-checks" id="dailyChecks"><span class="check-item" data-check="bond"><i></i> Say hello</span><span class="check-item" data-check="nourish"><i></i> Share a snack</span><span class="check-item" data-check="play"><i></i> Stretch those wings</span></div></article>
+            <article class="daily-card"><div class="daily-heading"><span class="sunflower">✿</span><div><strong>Today, together</strong><small id="dailyProgressText">A few quiet moments are enough</small></div></div><div class="daily-checks" id="dailyChecks"><span class="check-item" data-check="bond"><i></i> Say hello</span><span class="check-item" data-check="nourish"><i></i> Offer a snack</span><span class="check-item" data-check="play"><i></i> Play a game</span></div></article>
           </aside>
         </section>
         <section class="hoard-shelf-section" aria-labelledby="shelfTitle">

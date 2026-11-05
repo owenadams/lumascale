@@ -235,7 +235,7 @@ body { color: var(--ink); background: radial-gradient(ellipse at 48% -18%, #292b
 .welcome-row h1, .page-heading h1 { color: #f0efff; }
 .welcome-subtitle, .page-heading p { color: #a4afbd; }
 .weather-icon { background: #3a3240; color: #ffdf9f; }
-.scene-card, .care-card, .daily-card, .feature-strip, .game-card, .food-card, .greenhouse-note, .seed-card, .lineage-section, .journal-sidebar { border-color: #36394a; background: #191b29d9; box-shadow: 0 12px 38px #05071335, inset 0 1px #ffffff12; }
+.scene-card, .care-card, .daily-card, .feature-strip, .game-card, .food-card, .curio-card, .greenhouse-note, .seed-card, .lineage-section, .journal-sidebar { border-color: #36394a; background: #191b29d9; box-shadow: 0 12px 38px #05071335, inset 0 1px #ffffff12; }
 .scene-sky { background: radial-gradient(ellipse at 50% 34%, #263447 0, #171b2d 48%, #101221 100%); }
 .scene-sky::before { background: radial-gradient(ellipse at 50% 46%, #5ed8d922, transparent 60%); }
 .scene-sun { background: radial-gradient(circle, #ffdf9f55 0 25%, #ffdf9f22 48%, transparent 72%); }

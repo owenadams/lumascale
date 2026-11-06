@@ -138,7 +138,8 @@
     lineageReady: false,
     checks: { bond: false, nourish: false, play: false },
     slumbering: false,
-    soundEnabled: true
+    soundEnabled: false,
+    soundPreferenceSet: false
   });
   let state = loadState();
   let gameFrame = 0;
@@ -159,6 +160,8 @@
       if (saved && saved.version === 1) {
         const defaults = defaultState();
         const loaded = { ...defaults, ...saved, stats: { ...defaults.stats, ...saved.stats }, inventory: { ...defaults.inventory, ...saved.inventory }, checks: { ...defaults.checks, ...saved.checks } };
+        loaded.soundPreferenceSet = saved.soundPreferenceSet === true;
+        loaded.soundEnabled = loaded.soundPreferenceSet && saved.soundEnabled === true;
         loaded.dragonSpecies = dragonSpeciesCatalog[saved.dragonSpecies] ? saved.dragonSpecies : saved.hatchedAt ? 'pearlescent' : null;
         if (!Array.isArray(saved.gardenPlots)) {
           loaded.gardenPlots = saved.plantedAt ? [{ cropId: 'moon-berries', plantedAt: saved.plantedAt, readyAt: saved.gardenReady ? saved.plantedAt : saved.plantedAt + GARDEN_GROWTH_MS }] : [];
@@ -438,6 +441,7 @@
     if (!state.soundEnabled) return;
     try {
       audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+      if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
       const oscillator = audioContext.createOscillator();
       const gain = audioContext.createGain();
       oscillator.type = 'sine';
@@ -559,6 +563,12 @@
     document.getElementById('dustCount').textContent = state.pearlDust;
     document.getElementById('hoardCount').textContent = state.items.length;
     document.getElementById('collectionCount').textContent = state.items.length;
+    const soundButton = document.getElementById('soundToggleButton');
+    soundButton.setAttribute('aria-pressed', String(state.soundEnabled));
+    soundButton.setAttribute('aria-label', state.soundEnabled ? 'Mute sounds' : 'Turn sounds on');
+    soundButton.title = state.soundEnabled ? 'Mute sounds' : 'Turn sounds on';
+    soundButton.querySelector('.sound-on-icon').classList.toggle('hidden', !state.soundEnabled);
+    soundButton.querySelector('.sound-off-icon').classList.toggle('hidden', state.soundEnabled);
     document.querySelectorAll('.game-scene-dragon').forEach(image => {
       const poses = state.hatchedAt ? dragonPosesForStage(stageName()) : dragonPoseAssets['Sky-Drifter'];
       image.src = poses.play || poses.idle;
@@ -1125,7 +1135,7 @@
   }
   function openSettings() {
     document.getElementById('modalBackdrop').classList.remove('hidden');
-    document.getElementById('modalCard').innerHTML = `<button class="modal-close" data-action="closeModal" aria-label="Close">×</button><div class="modal-eyebrow">MAKE THIS PLACE YOURS</div><h2 id="modalTitle">Sanctuary settings</h2><p>Your sanctuary is saved privately in this browser.</p><label class="modal-label" for="dragonNameSetting">DRAGON NAME</label><input class="modal-input" id="dragonNameSetting" maxlength="18" value="${escapeHtml(state.name)}" ${!state.hatchedAt ? 'disabled' : ''}><div class="setting-row"><span><strong>Soft sounds</strong><small>Gentle synthesized chimes</small></span><button class="setting-action" data-action="toggleSound">${state.soundEnabled ? 'On' : 'Off'}</button></div><div class="setting-row"><span><strong>Long-term preview</strong><small>Advance the in-game clock by 30 days</small></span><button class="setting-action" data-action="skipFromSettings">Skip time</button></div><div class="setting-row"><span><strong>Fresh start</strong><small>Erase this sanctuary from this browser</small></span><button class="setting-action" data-action="confirmReset">Reset</button></div><div class="modal-actions"><button class="secondary-button" data-action="closeModal">Close</button><button class="primary-button" data-action="saveSettings">Save changes</button></div>`;
+    document.getElementById('modalCard').innerHTML = `<button class="modal-close" data-action="closeModal" aria-label="Close">×</button><div class="modal-eyebrow">MAKE THIS PLACE YOURS</div><h2 id="modalTitle">Sanctuary settings</h2><p>Your sanctuary is saved privately in this browser.</p><label class="modal-label" for="dragonNameSetting">DRAGON NAME</label><input class="modal-input" id="dragonNameSetting" maxlength="18" value="${escapeHtml(state.name)}" ${!state.hatchedAt ? 'disabled' : ''}><div class="setting-row"><span><strong>Sound effects</strong><small>Off by default; gentle chimes when enabled</small></span><button class="setting-action" data-action="toggleSound" aria-pressed="${state.soundEnabled}">${state.soundEnabled ? 'On' : 'Off'}</button></div><div class="setting-row"><span><strong>Long-term preview</strong><small>Advance the in-game clock by 30 days</small></span><button class="setting-action" data-action="skipFromSettings">Skip time</button></div><div class="setting-row"><span><strong>Fresh start</strong><small>Erase this sanctuary from this browser</small></span><button class="setting-action" data-action="confirmReset">Reset</button></div><div class="modal-actions"><button class="secondary-button" data-action="closeModal">Close</button><button class="primary-button" data-action="saveSettings">Save changes</button></div>`;
   }
   function openResetConfirmation() {
     document.getElementById('modalCard').innerHTML = `<button class="modal-close" data-action="closeModal" aria-label="Close">×</button><div class="modal-eyebrow">A NEW BEGINNING</div><h2 id="modalTitle">Start a fresh sanctuary?</h2><p>This permanently erases the LumaScale save in this browser. The little world will begin again with a new egg.</p><div class="modal-actions"><button class="secondary-button" data-action="openSettings">Keep this one</button><button class="primary-button" data-action="resetGame">Start fresh</button></div>`;
@@ -1459,7 +1469,14 @@
     }
     if (action === 'saveDragonName') meetDragon();
     if (action === 'completeLineageHatch') completeLineageHatch();
-    if (action === 'toggleSound') { state.soundEnabled = !state.soundEnabled; openSettings(); commit(); }
+    if (action === 'toggleSound') {
+      state.soundEnabled = !state.soundEnabled;
+      state.soundPreferenceSet = true;
+      if (!state.soundEnabled && audioContext?.state === 'running') audioContext.suspend().catch(() => {});
+      commit();
+      if (actionButton.closest('#modalCard')) openSettings();
+      else showToast(state.soundEnabled ? 'Sounds on.' : 'Sounds muted.', state.soundEnabled ? '♫' : '×');
+    }
     if (action === 'skipFromSettings') { closeModal(); skipTime(); }
     if (action === 'confirmReset') openResetConfirmation();
     if (action === 'resetGame') resetGame();

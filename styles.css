@@ -68,6 +68,8 @@ button:disabled { opacity: .48; cursor: not-allowed; transform: none !important;
 .icon-button, .avatar-button { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #e4e9df; border-radius: 50%; background: #fbfcf8; color: #6e8674; cursor: pointer; transition: transform .18s, background .18s; }
 .icon-button:hover, .avatar-button:hover { transform: translateY(-1px); background: #edf4eb; }
 .icon-button { font-size: 17px; }
+.sound-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sound-toggle[aria-pressed="true"] { border-color: #5ed8d988; color: #b0fffe; }
 .avatar-button { border-color: #d9e8d8; background: #e8f0e4; color: #65856b; font-size: 16px; }
 .view-panel { display: none; max-width: 1420px; margin: 0 auto; padding: 30px 0 12px; animation: enter .28s ease both; }
 .view-panel.active { display: block; }

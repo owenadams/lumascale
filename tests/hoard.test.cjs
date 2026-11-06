@@ -326,3 +326,16 @@ test('each species has an available idle image for every growth stage', () => {
     }
   }
 });
+
+test('sounds default to muted until the player explicitly enables them', () => {
+  const legacy = sanctuary({ soundEnabled: true });
+  assert.equal(legacy.state().soundEnabled, false);
+  assert.equal(legacy.state().soundPreferenceSet, false);
+
+  legacy.state().soundEnabled = true;
+  legacy.state().soundPreferenceSet = true;
+  legacy.save();
+  const returning = sanctuary(legacy.saved());
+  assert.equal(returning.state().soundEnabled, true);
+  assert.equal(returning.state().soundPreferenceSet, true);
+});
